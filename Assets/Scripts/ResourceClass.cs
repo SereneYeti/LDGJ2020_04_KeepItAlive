@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public abstract class ResourceClass
 {
@@ -16,7 +17,10 @@ public abstract class ResourceClass
     protected float flamethrowerFuel;
 
     //Methods
-    public abstract void TakeDamage();
+    public abstract void TakeDamage(float damage);
+    public abstract void SetHealth(float h);
+    public abstract void SetMaxHealth(float mH);
+    public abstract void DisplayHealth(TMP_Text text);
     public abstract void Breathe();
     public abstract void Death();
 

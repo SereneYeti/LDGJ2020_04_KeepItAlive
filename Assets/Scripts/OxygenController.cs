@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class OxygenController : ResourceClass
 {
     //Main resources
-    public float Heath
+    public float Health
     {
         get { return base.health; }
         set { base.health = value; }
     }
 
-    public float MaxHeath
+    public float MaxHealth
     {
         get { return base.maxHealth; }
         set { base.maxHealth = value; }
@@ -47,6 +48,20 @@ public class OxygenController : ResourceClass
         get { return base.flamethrowerFuel; }
         set { base.flamethrowerFuel = value; }
     }
+    public override void DisplayHealth(TMP_Text text)
+    {
+        text.text = "";
+    }
+
+    public override void SetHealth(float h)
+    {
+        Health = h;
+    }
+
+    public override void SetMaxHealth(float mH)
+    {
+        MaxHealth = mH;
+    }
 
     public override void Breathe()
     {
@@ -58,7 +73,7 @@ public class OxygenController : ResourceClass
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage()
+    public override void TakeDamage(float damage)
     {
         throw new System.NotImplementedException();
     }
