@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour
         //{
         //    this.transform.position = new Vector3(player.transform.position.x + 1f, 11f, player.transform.position.z - 13f);
         //}
-        this.transform.position = new Vector3(player.transform.position.x + 1f, 13.5f, player.transform.position.z - 13f);
+        //this.transform.position = new Vector3(player.transform.position.x + 1f, 13.5f, player.transform.position.z - 13f);
+        this.transform.position = new Vector3(player.transform.position.x, 13.5f, player.transform.position.z);
     }
 }

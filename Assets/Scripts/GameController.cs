@@ -53,6 +53,7 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.W))
         {
+            //used for testing
             float tempH = healthController.Health-1;
             healthController.SetHealth(tempH);
             healthBar.SetHealth(Convert.ToInt32(tempH));
