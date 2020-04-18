@@ -51,12 +51,14 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.W))
         {
-            float tempH = healthController.Health--;
+            float tempH = healthController.Health-1;
             healthController.SetHealth(tempH);
+            healthBar.SetHealth(Convert.ToInt32(tempH));
+            healthController.DisplayHealth(dispHealth);
         }        
-        healthController.DisplayHealth(dispHealth);
+        
         
     }
 }
