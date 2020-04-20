@@ -8,7 +8,7 @@ public class CoinControll : MonoBehaviour
     public float canisterFill = 10f;
     private void OnTriggerEnter(Collider other)
     {
-        
+        Debug.Log("T");
         if (other.tag == "Player")
         {          
             PlayerController pC = game_Manager.Instance.player.GetComponent<PlayerController>();
@@ -27,7 +27,7 @@ public class CoinControll : MonoBehaviour
            
             game_Manager.Instance.oxygenBar.SetOxygen(Convert.ToInt32(temp));
 
-            Debug.Log(temp);
+            Debug.Log("Boo");
             Destroy(this.gameObject);
         }
         

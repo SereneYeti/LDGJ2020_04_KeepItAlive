@@ -43,6 +43,7 @@ public class game_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Cursor.lockState = CursorLockMode.Locked;
         lostKilled = 0;
     }
 

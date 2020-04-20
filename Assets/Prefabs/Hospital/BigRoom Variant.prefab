@@ -113,7 +113,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: dd7e377ee0f19014eab93bdbc0516ab6,
         type: 3}
       propertyPath: m_Name
-      value: BigRoom
+      value: BigRoom Variant
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: dd7e377ee0f19014eab93bdbc0516ab6,
         type: 3}

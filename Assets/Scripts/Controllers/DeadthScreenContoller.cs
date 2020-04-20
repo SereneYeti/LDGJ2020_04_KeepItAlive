@@ -17,18 +17,22 @@ public class DeadthScreenContoller : MonoBehaviour
         //btnPlay = GetComponentInChildren<Button>();
         //btnQuit = GetComponentInChildren<Button>();
 
-        btnPlay.onClick.AddListener(PlayGame);
-        btnQuit.onClick.AddListener(QuitGame);
-        message.text = game_Manager.Instance.killedBy + "\nYou had " + game_Manager.Instance.finalHealth + " health left.\nYou had " + game_Manager.Instance.finalO2 + " O2 left.\n This makes humanity " + game_Manager.Instance.lostKilled + " dead lost closer to salvation.";
+        
+        btnPlay.onClick.AddListener(this.PlayGameAgain);
+        btnQuit.onClick.AddListener(this.QuitGame);
+        message.text = game_Manager.Instance.killedBy + "\nYou had " + game_Manager.Instance.finalHealth + " health left.\nYou had " + game_Manager.Instance.finalO2 + " oxygen left.\nYou killed " + game_Manager.Instance.lostKilled + " lost!";
 
     }
-
-    void PlayGame()
+    // Update is called once per frame
+    void Update()
     {
-        Debug.Log("Test");
-        SceneManager.LoadScene(1);
-    }
 
+    }
+    void PlayGameAgain()
+    {
+        //Debug.Log("PlayAgain");
+        SceneManager.LoadScene("Level 1");
+    }
     void QuitGame()
     {
         Application.Quit();

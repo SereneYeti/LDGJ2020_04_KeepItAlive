@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private float lastShot;
     public float fireRate;
 
+    public Texture2D texture;
+
     #region Health
 
     public float currentOxygen;
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                //Move out agent
+                //Move our agent
                 agent.SetDestination(new Vector3(hit.point.x, 1f, hit.point.z));
                 idle.SetActive(false);
                 Walking.SetActive(true);
@@ -77,14 +79,14 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot()
     {
-        RaycastHit raycastHit;
-        Debug.Log("t");
-        if (Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out raycastHit))
-        {
-            Debug.Log(raycastHit.transform.name);
-        }
-        Quaternion rotate = (firePoint.transform.rotation);
-        //Vector2 lookDir = mousePos - playerRB.position;
+        //RaycastHit raycastHit;
+        //Debug.Log("t");
+        //if (Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out raycastHit))
+        //{
+        //    Debug.Log(raycastHit.transform.name);
+        //}
+        //Quaternion rotate = (firePoint.transform.rotation);
+        ////Vector2 lookDir = mousePos - playerRB.position;
 
         //float angle = Mathf.Atan2(lookDir.y,lookDir.x)*Mathf.Rad2Deg;
         #region atempts to shoot on mousePos
@@ -99,7 +101,7 @@ public class PlayerController : MonoBehaviour
         #endregion
         GameObject bullet = Instantiate(bulletPrefab, new Vector3(firePoint.transform.position.x, firePoint.transform.position.y, firePoint.transform.position.z + 0.5f), game_Manager.Instance.player.transform.rotation);
         Rigidbody rB = bullet.GetComponent<Rigidbody>();
-        rB.AddForce(firePoint.transform.forward * bulletForce, ForceMode.Impulse);
+        rB.AddForce(rB.transform.forward * bulletForce, ForceMode.Impulse);
 
     }
 
@@ -127,7 +129,8 @@ public class PlayerController : MonoBehaviour
         healthController.DisplayHealth(dispHealth);
         idle.SetActive(true);
         Walking.SetActive(false);
-        //Cursor.visible = false;
+        Cursor.SetCursor(texture, mousePos,CursorMode.ForceSoftware);
+        Cursor.visible = true;
     }
 
     void Update()
@@ -151,7 +154,7 @@ public class PlayerController : MonoBehaviour
         Movement();
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-
+        
         #region Crosshair Attempt
         //crosshairs.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
 
