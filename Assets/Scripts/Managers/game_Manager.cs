@@ -27,6 +27,15 @@ public class game_Manager : MonoBehaviour
     }
     #endregion
     public GameObject player;
+    public HealthBar healthBar;
+    public OxygenBar oxygenBar;
+
+    public float lostKilled;
+    public float finalHealth;
+    public float finalO2;
+
+    public string killedBy;
+
     public EnemyController enemyController;
     public List<GameObject> mobs = new List<GameObject>();
 
@@ -34,7 +43,7 @@ public class game_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        lostKilled = 0;
     }
 
     // Update is called once per frame

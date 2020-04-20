@@ -64,7 +64,7 @@ NavMeshAgent:
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 180
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cb33a18324a9243abdc60b2e0a8a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderRadius: 20
-  wanderTimer: 5
+  wanderRadius: 50
+  wanderTimer: 20
 --- !u!1 &5423776812961057167
 GameObject:
   m_ObjectHideFlags: 0

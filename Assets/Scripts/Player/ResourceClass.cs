@@ -20,7 +20,10 @@ public abstract class ResourceClass
     public abstract void TakeDamage(float damage);
     public abstract void SetHealth(float h);
     public abstract void SetMaxHealth(float mH);
+    public abstract void SetO2(float O2);
+    public abstract void SetMaxO2(float mO2);
     public abstract void DisplayHealth(TextMeshProUGUI text);
+    public abstract void Display02(TextMeshProUGUI text);
     public abstract void Breathe();
     public abstract void Death(TMPro.TextMeshProUGUI text);
 

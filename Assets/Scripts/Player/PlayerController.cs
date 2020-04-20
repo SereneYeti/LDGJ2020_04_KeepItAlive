@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     public float damage = 10f;
     public float bulletForce = 20f;
-    Vector3 mousePos;
+    Vector2 mousePos;
     Vector3 target;
     float speed = 5f;
 
@@ -18,14 +18,17 @@ public class PlayerController : MonoBehaviour
     public float fireRate;
 
     #region Health
-    public HealthBar healthBar;
-    public HealthController healthController = new HealthController(100f,100f,100f,100f);
+
+    public float currentOxygen;
+    public OxygenController oxygenController = new OxygenController(100f, 100f, 100f, 100f);
+    public HealthController healthController = new HealthController(100f, 100f, 100f, 100f);
     public TextMeshProUGUI dispHealth;
+    public TextMeshProUGUI disp02;
     #endregion
     public Camera cam;
 
     public NavMeshAgent agent;
-    public Rigidbody playerRB;
+    //public Rigidbody2D playerRB;
 
     #region bullet 
     public GameObject firePoint;
@@ -41,8 +44,16 @@ public class PlayerController : MonoBehaviour
     {
         healthController.SetMaxHealth(maxHealth);
         healthController.SetHealth(maxHealth);
-        healthBar.SetMaxHealth(Convert.ToInt32(healthController.Health));
-        healthBar.SetHealth(Convert.ToInt32(healthController.Health));
+        game_Manager.Instance.healthBar.SetMaxHealth(Convert.ToInt32(healthController.Health));
+        game_Manager.Instance.healthBar.SetHealth(Convert.ToInt32(healthController.Health));
+    }
+
+    public void Reset02(float max02)
+    {
+        oxygenController.SetMaxO2(max02);
+        oxygenController.SetO2(max02);
+        game_Manager.Instance.oxygenBar.SetMaxOxygen(Convert.ToInt32(max02));
+        game_Manager.Instance.oxygenBar.SetOxygen(Convert.ToInt32(max02));
     }
 
     public void Movement()
@@ -57,44 +68,47 @@ public class PlayerController : MonoBehaviour
                 //Move out agent
                 agent.SetDestination(new Vector3(hit.point.x, 1f, hit.point.z));
                 idle.SetActive(false);
-                Walking.SetActive(true);                
+                Walking.SetActive(true);
             }
 
         }
 
     }
-        
+
     public void Shoot()
     {
         RaycastHit raycastHit;
         Debug.Log("t");
-        if(Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out raycastHit))
+        if (Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out raycastHit))
         {
             Debug.Log(raycastHit.transform.name);
         }
         Quaternion rotate = (firePoint.transform.rotation);
-        Vector3 targetDir = mousePos - transform.position;
+        //Vector2 lookDir = mousePos - playerRB.position;
 
-        float angle = Vector3.SignedAngle(targetDir, transform.forward,Vector3.up);        
+        //float angle = Mathf.Atan2(lookDir.y,lookDir.x)*Mathf.Rad2Deg;
+        #region atempts to shoot on mousePos
         //float angle = Mathf.Atan(mousePos.z / mousePos.x);
-        Debug.Log(angle);
+        //Debug.Log(angle);
         //angle -= 90;
         //agent.transform.Rotate(new Vector3(0f,angle,0f),Space.World); 
         //agent.transform.rotation = Quaternion.Euler(0f,angle,0f);
         //agent.transform.Rotate(new Vector3(0f, agent.transform.rotation.y + Vector3.SignedAngle(playerRB.transform.position, Input.mousePosition, Vector3.up)));
         //agent.transform.rotation = Quaternion.Euler(new Vector3(0f, Vector3.Angle(playerRB.transform.position, Input.mousePosition), 0f));
         //rotate.y *= -1;
-        GameObject bullet = Instantiate(bulletPrefab, new Vector3(firePoint.transform.position.x, firePoint.transform.position.y, firePoint.transform.position.z+0.5f), playerRB.rotation);
+        #endregion
+        GameObject bullet = Instantiate(bulletPrefab, new Vector3(firePoint.transform.position.x, firePoint.transform.position.y, firePoint.transform.position.z + 0.5f), game_Manager.Instance.player.transform.rotation);
         Rigidbody rB = bullet.GetComponent<Rigidbody>();
         rB.AddForce(firePoint.transform.forward * bulletForce, ForceMode.Impulse);
-        
+
     }
 
     public void LookAtMouse()
     {
-        
-        //Vector2 dir = new Vector2(mousePos.x, mousePos.z) - new Vector2(playerRB.position.x, playerRB.position.z);
+
+        //Vector2 dir = mousePos - playerRB.position;
         //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Deg2Rad;
+        //playerRB.rotation = angle;
         //playerRB.rotation.Set(0f, angle, 0f, playerRB.rotation.w);
         //transform.Rotate(transform.position, angle);
         //Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition);
@@ -108,6 +122,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         ResetHealth(100f);
+        Reset02(100f);
+        currentOxygen = oxygenController.O2;
         healthController.DisplayHealth(dispHealth);
         idle.SetActive(true);
         Walking.SetActive(false);
@@ -116,12 +132,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!agent.hasPath)
+        currentOxygen = oxygenController.O2;
+        if (!agent.hasPath)
         {
             idle.SetActive(true);
             Walking.SetActive(false);
         }
-                        
+
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            agent.speed = 0f;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            agent.speed = 10f;
+        }
 
         Movement();
 
@@ -137,19 +162,45 @@ public class PlayerController : MonoBehaviour
 
         healthController.Death(dispHealth);
 
-        if (Input.GetMouseButton(1)&&(lastShot + fireRate <= Time.time))            
+        if (Input.GetMouseButton(1) && (lastShot + fireRate <= Time.time))
         {
             lastShot = Time.time;
             Shoot();
         }
 
+        oxygenController.Display02(disp02);
+        oxygenController.Death(disp02);
+
+        if(healthController.IsDead == true&& oxygenController.IsDead == false)
+        {
+            game_Manager.Instance.killedBy = "You died by beating!";
+            game_Manager.Instance.finalHealth = healthController.Health;
+            game_Manager.Instance.finalO2 = oxygenController.O2;
+            SceneManager.LoadScene(2);
+        }
+        else if(oxygenController.IsDead == true&& healthController.IsDead == false)
+        {
+            game_Manager.Instance.killedBy = "You died by sufocation!";
+            game_Manager.Instance.finalHealth = healthController.Health;
+            game_Manager.Instance.finalO2 = oxygenController.O2;
+            SceneManager.LoadScene(2);
+        }
     }
 
     private void FixedUpdate()
     {
-        //LookAtMouse();
-        
+        LookAtMouse();
+
+        if(Time.fixedTime % 1.5 ==0&&oxygenController.O2 > 0)
+        {
+            oxygenController.Breathe();
+            game_Manager.Instance.oxygenBar.SetOxygen(Convert.ToInt32(oxygenController.O2));
+            //Debug.Log(oxygenController.O2); 
+            oxygenController.Display02(disp02);
+            oxygenController.Death(disp02);
+        }
+
     }
 
-    
+
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class HealthController : ResourceClass
 {   
@@ -75,11 +77,13 @@ public class HealthController : ResourceClass
     public override void SetHealth(float h)
     {
         Health = h;
+        game_Manager.Instance.healthBar.SetHealth(Convert.ToInt32(Health));
     }
 
     public override void SetMaxHealth(float mH)
     {
         MaxHealth = mH;
+        game_Manager.Instance.healthBar.SetHealth(Convert.ToInt32(MaxHealth));
     }
 
     public override void Breathe()
@@ -100,5 +104,20 @@ public class HealthController : ResourceClass
     public override void TakeDamage(float damage)
     {
         Health = Health - damage;
+    }
+
+    public override void Display02(TextMeshProUGUI text)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void SetO2(float O2)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void SetMaxO2(float mO2)
+    {
+        throw new System.NotImplementedException();
     }
 }

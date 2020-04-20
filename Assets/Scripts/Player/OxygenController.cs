@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class OxygenController : ResourceClass
 {
@@ -48,9 +50,23 @@ public class OxygenController : ResourceClass
         get { return base.flamethrowerFuel; }
         set { base.flamethrowerFuel = value; }
     }
+
+    public OxygenController(float h, float mH, float _o2, float mO2)
+    {
+        Health = h;
+        MaxHealth = mH;
+        O2 = _o2;
+        MaxO2 = mO2;
+    }
+
     public override void DisplayHealth(TextMeshProUGUI text)
     {
         text.text = "";
+    }
+
+    public override void Display02(TextMeshProUGUI text)
+    {
+        text.text = "Oxygen: " + O2;
     }
 
     public override void SetHealth(float h)
@@ -65,16 +81,36 @@ public class OxygenController : ResourceClass
 
     public override void Breathe()
     {
-        throw new System.NotImplementedException();
+        if (02 >= 0)
+        {
+            O2 = O2 - 2;
+        }
+        
     }
 
     public override void Death(TMPro.TextMeshProUGUI text)
     {
-        throw new System.NotImplementedException();
+        if (O2 <= 0)
+        {
+            IsDead = true;
+            text.text = "Dead";
+        }
     }
 
     public override void TakeDamage(float damage)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override void SetO2(float o2)
+    {
+        O2 = o2;
+        game_Manager.Instance.oxygenBar.SetOxygen(Convert.ToInt32(O2));
+    }
+
+    public override void SetMaxO2(float mO2)
+    {
+        MaxO2 = mO2;
+        game_Manager.Instance.oxygenBar.SetOxygen(Convert.ToInt32(MaxO2));
     }
 }
