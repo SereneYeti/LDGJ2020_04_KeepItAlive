@@ -12,16 +12,16 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent;
 
     //public GameObject zombIdle;
-    public GameObject zombWalk;
-    public GameObject zombAttack;
+    //public GameObject zombWalk;
+    //public GameObject zombAttack;
 
     public TheMaddenedUnit mU = new TheMaddenedUnit(15f,15f,10f,10f);
     // Start is called before the first frame update
     void Start()
     {
         //zombIdle.SetActive(false);
-        zombWalk.SetActive(true);
-        zombAttack.SetActive(false);
+        //zombWalk.SetActive(true);
+        //zombAttack.SetActive(true);
         target = game_Manager.Instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         this.transform.position = new Vector3(this.transform.position.x, 2.47f, this.transform.position.z);
@@ -43,8 +43,8 @@ public class EnemyController : MonoBehaviour
         if(distance <= lookRadius)
         {
             //zombIdle.SetActive(false);
-            zombWalk.SetActive(true);
-            zombAttack.SetActive(false);
+            //zombWalk.SetActive(true);
+            //zombAttack.SetActive(false);
 
             agent.SetDestination(target.position);
         }        
@@ -74,8 +74,8 @@ public class EnemyController : MonoBehaviour
             if (distance <= 2f)
             {
                 //zombIdle.SetActive(false);
-                zombWalk.SetActive(false);
-                zombAttack.SetActive(true);
+                //zombWalk.SetActive(false);
+                //zombAttack.SetActive(true);
                 mU.Attack(game_Manager.Instance.player);
             }
         }        

@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         //agent.transform.rotation = Quaternion.Euler(new Vector3(0f, Vector3.Angle(playerRB.transform.position, Input.mousePosition), 0f));
         //rotate.y *= -1;
         #endregion
-        GameObject bullet = Instantiate(bulletPrefab, new Vector3(firePoint.transform.position.x, firePoint.transform.position.y, firePoint.transform.position.z + 0.5f), game_Manager.Instance.player.transform.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, new Vector3(firePoint.transform.position.x, firePoint.transform.position.y, firePoint.transform.position.z + 0.5f), this.transform.rotation);
         Rigidbody rB = bullet.GetComponent<Rigidbody>();
         rB.AddForce(rB.transform.forward * bulletForce, ForceMode.Impulse);
 
@@ -179,14 +179,14 @@ public class PlayerController : MonoBehaviour
             game_Manager.Instance.killedBy = "You died by beating!";
             game_Manager.Instance.finalHealth = healthController.Health;
             game_Manager.Instance.finalO2 = oxygenController.O2;
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(0);
         }
         else if(oxygenController.IsDead == true&& healthController.IsDead == false)
         {
             game_Manager.Instance.killedBy = "You died by sufocation!";
             game_Manager.Instance.finalHealth = healthController.Health;
             game_Manager.Instance.finalO2 = oxygenController.O2;
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(0);
         }
     }
 

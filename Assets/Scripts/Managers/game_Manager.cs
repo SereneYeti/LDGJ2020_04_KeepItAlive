@@ -12,6 +12,9 @@ public class game_Manager : MonoBehaviour
         get { return instance; }
         set { }
     }
+    public GameObject player;
+    public HealthBar healthBar;
+    public OxygenBar oxygenBar;
 
     private void Awake()
     {
@@ -26,9 +29,8 @@ public class game_Manager : MonoBehaviour
         }
     }
     #endregion
-    public GameObject player;
-    public HealthBar healthBar;
-    public OxygenBar oxygenBar;
+    
+    
 
     public float lostKilled;
     public float finalHealth;
@@ -36,8 +38,8 @@ public class game_Manager : MonoBehaviour
 
     public string killedBy;
 
-    public EnemyController enemyController;
-    public List<GameObject> mobs = new List<GameObject>();
+    //public EnemyController enemyController;
+    //public List<GameObject> mobs = new List<GameObject>();
 
     public int mobCount;
     // Start is called before the first frame update

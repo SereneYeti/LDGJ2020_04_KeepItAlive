@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     public Button btnPlay;
     public Button btnModifiers;
     public Button btnQuit;
+    public Text message;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,10 @@ public class MainMenuController : MonoBehaviour
         btnPlay.onClick.AddListener(PlayGame);
         //btnModifiers.onClick.AddListener(GenerateModifiers); 
         btnQuit.onClick.AddListener(QuitGame);
-    
+       
+        message.text = game_Manager.Instance.killedBy + "\nYou had " + game_Manager.Instance.finalHealth + " health left.\nYou had " + game_Manager.Instance.finalO2 + " oxygen left.\nYou killed " + game_Manager.Instance.lostKilled + " lost!";
+
+
     }
 
     void GenerateModifiers()
@@ -29,7 +33,7 @@ public class MainMenuController : MonoBehaviour
     void PlayGame ()
     {
         Debug.Log("Test");
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Level 1");
     }
 
     void QuitGame()
